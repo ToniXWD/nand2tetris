@@ -1,0 +1,59 @@
+// LCL指向栈中该函数开始时的位置，即caller之后的位置，后称之为调用函数首地址
+@LCL
+D=M
+@R15 // 将调用函数首地址储存在R15中
+M=D
+// 将return Address储存在R14中
+@5
+D=A
+@R15
+A=M-D
+D=M
+@R14
+M=D
+// 将返回值储存在ARG 0的位置
+@SP
+AM=M-1
+D=M
+@ARG
+A=M
+M=D
+// 将SP至于ARG 0，即函数返回值之后
+@ARG
+D=M+1
+@SP
+M=D
+// 恢复THAT
+@R15
+A=M-1
+D=M
+@THAT
+M=D
+// 恢复THIS
+@2
+D=A
+@R15
+A=M-D
+D=M
+@THIS
+M=D
+// 恢复ARG
+@3
+D=A
+@R15
+A=M-D
+D=M
+@ARG
+M=D
+// 恢复LCL
+@4
+D=A
+@R15
+A=M-D
+D=M
+@LCL
+M=D
+// 回到caller调用calle的下一个指令位置
+@R14
+A=M
+0;JMP
